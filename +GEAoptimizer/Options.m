@@ -1,0 +1,105 @@
+classdef Options
+    %OPTIONS Configuration for an optimization run (public API).
+    %
+    % Example:
+    %   opts = GEAoptimizer.Options("algorithm","ga","populationSize",50);
+
+    properties (SetAccess = immutable)
+        algorithm (1, 1) string {mustBeMember(algorithm, ["ga","gea","sa","pso"])} = "ga"
+        populationSize (1, 1) double {mustBeInteger, mustBePositive} = 50
+        maxIterations (1, 1) double {mustBeInteger, mustBePositive} = 200
+        seed (1, 1) double {mustBeInteger, mustBeNonnegative} = 0
+
+        % Population initialization
+        % - If provided, initialPopulation seeds the run.
+        % - If fewer rows than populationSize, the remainder is filled using
+        %   populationInitializer.
+        initialPopulation = []   % double matrix (N x nGenes) OR GEAoptimizer.core.Population
+        populationInitializer (1, 1) function_handle = @GEAoptimizer.init.uniform % (problem, n) -> Population
+
+        % Early-stop options (generic; algorithms may ignore if unsupported)
+        targetFitness (1, 1) double = NaN
+        stallIterations (1, 1) double {mustBeInteger, mustBeNonnegative} = 0
+
+        % Monitoring
+        monitor = []
+        callbacks = struct()
+
+        % Placeholder operator configuration (wired later by algorithms)
+        selection = "tournament"
+        crossover = "onepoint"
+        mutation = "gaussian"
+    end
+
+    methods
+        function obj = Options(nameValueArgs)
+            arguments
+                nameValueArgs.algorithm (1, 1) string = "ga"
+                nameValueArgs.populationSize (1, 1) double = 50
+                nameValueArgs.maxIterations (1, 1) double = 200
+                nameValueArgs.seed (1, 1) double = 0
+                nameValueArgs.initialPopulation = []
+                nameValueArgs.populationInitializer (1, 1) function_handle = @GEAoptimizer.init.uniform
+                nameValueArgs.targetFitness (1, 1) double = NaN
+                nameValueArgs.stallIterations (1, 1) double = 0
+                nameValueArgs.monitor = []
+                % callbacks is a struct of function handles that run during the
+                % main loop (in addition to monitor). Each field is optional:
+                %   - onStart(iter, popSnap, history, ctx, result)
+                %   - onBeforeStep(iter, popSnap, history, ctx, result)
+                %   - onAfterStep(iter, popSnap, history, ctx, result)
+                %   - onAfterEvaluation(iter, popSnap, history, ctx, result)
+                %   - onFinish(iter, popSnap, history, ctx, result)
+                %
+                % If a callback returns logical true, the run stops with
+                % exitReason="userStop".
+                nameValueArgs.callbacks = struct()
+                nameValueArgs.selection (1, 1) string = "tournament"
+                nameValueArgs.crossover (1, 1) string = "onepoint"
+                nameValueArgs.mutation (1, 1) string = "gaussian"
+            end
+
+            obj.algorithm = nameValueArgs.algorithm;
+            obj.populationSize = nameValueArgs.populationSize;
+            obj.maxIterations = nameValueArgs.maxIterations;
+            obj.seed = nameValueArgs.seed;
+            obj.initialPopulation = nameValueArgs.initialPopulation;
+            obj.populationInitializer = nameValueArgs.populationInitializer;
+            obj.targetFitness = nameValueArgs.targetFitness;
+            obj.stallIterations = nameValueArgs.stallIterations;
+            obj.monitor = nameValueArgs.monitor;
+            obj.callbacks = obj.normalizeCallbacks(nameValueArgs.callbacks);
+            obj.selection = nameValueArgs.selection;
+            obj.crossover = nameValueArgs.crossover;
+            obj.mutation = nameValueArgs.mutation;
+        end
+    end
+
+    methods (Access = private, Static)
+        function cb = normalizeCallbacks(cb)
+            if isempty(cb)
+                cb = struct();
+            end
+            if ~isstruct(cb)
+                error("Options:InvalidCallbacks", "callbacks must be a struct of function handles.");
+            end
+            % Normalize missing fields to [] so call sites can check simply.
+            cb = GEAoptimizer.Options.ensureCallbackField(cb, "onStart");
+            cb = GEAoptimizer.Options.ensureCallbackField(cb, "onBeforeStep");
+            cb = GEAoptimizer.Options.ensureCallbackField(cb, "onAfterStep");
+            cb = GEAoptimizer.Options.ensureCallbackField(cb, "onAfterEvaluation");
+            cb = GEAoptimizer.Options.ensureCallbackField(cb, "onFinish");
+        end
+
+        function cb = ensureCallbackField(cb, name)
+            if ~isfield(cb, name)
+                cb.(name) = [];
+                return;
+            end
+            val = cb.(name);
+            if ~(isempty(val) || isa(val, "function_handle"))
+                error("Options:InvalidCallbacks", "callbacks.%s must be a function handle or empty.", name);
+            end
+        end
+    end
+end
