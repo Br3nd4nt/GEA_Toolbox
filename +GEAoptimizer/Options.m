@@ -5,7 +5,10 @@ classdef Options
     %   opts = GEAoptimizer.Options("algorithm","ga","populationSize",50);
 
     properties (SetAccess = immutable)
-        algorithm (1, 1) string {mustBeMember(algorithm, ["ga","gea","sa","pso"])} = "ga"
+        % Algorithm selection:
+        % - string: one of "ga", "gea", "sa", "pso"
+        % - function_handle: factory called as f(problem, options) returning an Optimizer
+        algorithm = "ga"
         populationSize (1, 1) double {mustBeInteger, mustBePositive} = 50
         maxIterations (1, 1) double {mustBeInteger, mustBePositive} = 200
         seed (1, 1) double {mustBeInteger, mustBeNonnegative} = 0
@@ -25,6 +28,10 @@ classdef Options
         monitor = []
         callbacks = struct()
 
+        % Algorithm-specific parameters bag.
+        % Algorithms should read from here instead of adding new Options fields.
+        params (1, 1) struct = struct()
+
         % Placeholder operator configuration (wired later by algorithms)
         selection = "tournament"
         crossover = "onepoint"
@@ -34,7 +41,7 @@ classdef Options
     methods
         function obj = Options(nameValueArgs)
             arguments
-                nameValueArgs.algorithm (1, 1) string = "ga"
+                nameValueArgs.algorithm = "ga"
                 nameValueArgs.populationSize (1, 1) double = 50
                 nameValueArgs.maxIterations (1, 1) double = 200
                 nameValueArgs.seed (1, 1) double = 0
@@ -43,6 +50,7 @@ classdef Options
                 nameValueArgs.targetFitness (1, 1) double = NaN
                 nameValueArgs.stallIterations (1, 1) double = 0
                 nameValueArgs.monitor = []
+                nameValueArgs.params (1, 1) struct = struct()
                 % callbacks is a struct of function handles that run during the
                 % main loop (in addition to monitor). Each field is optional:
                 %   - onStart(iter, popSnap, history, ctx, result)
@@ -69,6 +77,7 @@ classdef Options
             obj.stallIterations = nameValueArgs.stallIterations;
             obj.monitor = nameValueArgs.monitor;
             obj.callbacks = obj.normalizeCallbacks(nameValueArgs.callbacks);
+            obj.params = nameValueArgs.params;
             obj.selection = nameValueArgs.selection;
             obj.crossover = nameValueArgs.crossover;
             obj.mutation = nameValueArgs.mutation;

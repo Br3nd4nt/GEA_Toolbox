@@ -7,7 +7,11 @@ classdef FunctionMonitor < GEAoptimizer.monitor.Monitor
     % where event is one of: "start", "iteration", "finish".
 
     properties (SetAccess = immutable)
-        fn (1, 1) function_handle
+        % Wrapped user function.
+        %
+        % MATLAB requires a default value for validated properties; we use a
+        % harmless placeholder and overwrite it in the constructor.
+        fn (1, 1) function_handle = @(varargin) []
     end
     
     properties (Access = private)

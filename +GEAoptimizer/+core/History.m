@@ -1,4 +1,4 @@
-classdef History
+classdef History < handle
     %HISTORY History of optimization alg running
     
     % TODO: add the problem itself?
@@ -22,4 +22,3 @@ classdef History
         end
     end
 end
-

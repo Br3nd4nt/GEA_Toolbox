@@ -8,7 +8,16 @@ classdef OptimizerFactory
                 options (1, 1) GEAoptimizer.Options
             end
 
-            switch options.algorithm
+            if isa(options.algorithm, "function_handle")
+                optimizer = options.algorithm(problem, options);
+                if ~isa(optimizer, "GEAoptimizer.alg.Optimizer")
+                    error("OptimizerFactory:InvalidFactory", "Algorithm factory must return a GEAoptimizer.alg.Optimizer.");
+                end
+                return;
+            end
+
+            alg = string(options.algorithm);
+            switch alg
                 case "ga"
                     optimizer = GEAoptimizer.alg.GA(problem, options);
                 case "gea"
@@ -18,9 +27,8 @@ classdef OptimizerFactory
                 case "pso"
                     optimizer = GEAoptimizer.alg.PSO(problem, options);
                 otherwise
-                    error("Unknown algorithm: %s", options.algorithm);
+                    error("Unknown algorithm: %s", alg);
             end
         end
     end
 end
-

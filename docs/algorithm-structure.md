@@ -36,6 +36,8 @@ A run is defined by a `Problem` object:
 - monitoring hooks:
   - `monitor` (Monitor object *or* a function handle, wrapped automatically)
   - `callbacks` (struct of function handles for finer-grained hooks)
+- algorithm-specific settings:
+  - `params` (struct): a free-form parameter bag read by the selected algorithm
 
 ## Main loop scaffold (`GEAoptimizer.alg.PopulationOptimizer`)
 
@@ -181,4 +183,3 @@ Because it’s a value object with immutable properties, user code cannot mutate
   - `onBeforeStep`: just before `step()` is executed for an iteration.
   - `onAfterStep`: immediately after `step()` but before evaluation.
   - `onAfterEvaluation`: after evaluation + history update + monitor notification for that iteration.
-
