@@ -147,13 +147,30 @@ classdef (Abstract) PopulationOptimizer < GEAoptimizer.alg.Optimizer
             %   - Input: genes matrix of size (populationSize x nGenes)
             %   - Output: scalar OR vector with one value per row
             genes = reshape([pop.chromosomes.genes], obj.problem.nGenes, []).';
+            n = size(genes, 1);
+
+            % Try vectorized call first.
             fitness = obj.problem.fitnessFunction(genes);
+
             if isscalar(fitness)
-                fitness = repmat(fitness, size(genes, 1), 1);
+                fitness = repmat(double(fitness), n, 1);
+            elseif isnumeric(fitness) && (isequal(size(fitness), [n 1]) || isequal(size(fitness), [1 n]))
+                fitness = double(fitness(:));
+            else
+                % Fallback: treat fitnessFunction as non-vectorized and evaluate
+                % row-by-row. This supports common user functions written as
+                % f(xRow) -> scalar.
+                fit = zeros(n, 1);
+                for i = 1:n
+                    fi = obj.problem.fitnessFunction(genes(i, :));
+                    if ~isscalar(fi) || ~isnumeric(fi)
+                        error("Fitness function must return a numeric scalar per chromosome.");
+                    end
+                    fit(i) = double(fi);
+                end
+                fitness = fit;
             end
-            if numel(fitness) ~= size(genes, 1)
-                error("Fitness function must return scalar or one fitness per chromosome.");
-            end
+
             fitness = fitness(:).';
             for i = 1:numel(pop.chromosomes)
                 pop.chromosomes(i).fitness = fitness(i);

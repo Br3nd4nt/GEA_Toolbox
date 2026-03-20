@@ -43,7 +43,8 @@ classdef PopulationSnapshot
             obj.fitness = fitness(:);
         end
 
-        function n = size(obj)
+        function n = count(obj)
+            %COUNT Number of chromosomes represented by this snapshot.
             n = size(obj.genes, 1);
         end
 

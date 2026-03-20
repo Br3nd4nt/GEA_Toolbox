@@ -32,10 +32,18 @@ classdef Options
         % Algorithms should read from here instead of adding new Options fields.
         params (1, 1) struct = struct()
 
-        % Placeholder operator configuration (wired later by algorithms)
+        % Operator configuration (used by population-based algorithms like GA/GEA).
+        %
+        % Each field can be:
+        %   - a string variant name (e.g., "tournament")
+        %   - "random" to pick randomly from defaults / provided variants
+        %   - a struct with fields:
+        %       .mode: "fixed" | "random"
+        %       .variants: string array of variant names
+        %       .params: (optional) struct passed to operator implementation
         selection = "tournament"
         crossover = "onepoint"
-        mutation = "gaussian"
+        mutation = "swap"
     end
 
     methods
@@ -62,9 +70,9 @@ classdef Options
                 % If a callback returns logical true, the run stops with
                 % exitReason="userStop".
                 nameValueArgs.callbacks = struct()
-                nameValueArgs.selection (1, 1) string = "tournament"
-                nameValueArgs.crossover (1, 1) string = "onepoint"
-                nameValueArgs.mutation (1, 1) string = "gaussian"
+                nameValueArgs.selection = "random"
+                nameValueArgs.crossover = "random"
+                nameValueArgs.mutation = "random"
             end
 
             obj.algorithm = nameValueArgs.algorithm;
