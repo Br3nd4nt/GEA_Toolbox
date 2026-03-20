@@ -10,7 +10,7 @@ arguments
     options (1, 1) GEAoptimizer.Options
 end
 
-optimizer = GEAoptimizer.alg.OptimizerFactory.create(problem, options);
+optimizer = GEAoptimizer.core.OptimizerFactory.create(problem, options);
 [result, history] = optimizer.run();
 end
 

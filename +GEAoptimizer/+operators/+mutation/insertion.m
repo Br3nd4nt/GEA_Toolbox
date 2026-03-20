@@ -1,12 +1,9 @@
-function genes = insertion(genes, bounds, params) %#ok<INUSD>
-%INSERTION Insert a segment at the front (permutation-style).
-%
-% Ported from Metaheuristics_GEA/Algorithm/Mutation/Mutation_Insertion.m
+function genes = insertion(genes, bounds, params)
 
 arguments
     genes (1, :) double
-    bounds (2, :) double %#ok<INUSA>
-    params = struct() %#ok<INUSA>
+    bounds (2, :) double
+    params = struct()
 end
 
 n = numel(genes);

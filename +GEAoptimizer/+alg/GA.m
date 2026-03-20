@@ -1,4 +1,4 @@
-classdef GA < GEAoptimizer.alg.PopulationOptimizer
+classdef GA < GEAoptimizer.core.PopulationOptimizer
     %GA Genetic Algorithm optimizer (scaffolding only).
 
     methods (Access = protected)
@@ -32,9 +32,9 @@ classdef GA < GEAoptimizer.alg.PopulationOptimizer
             elites = population.chromosomes(1:eliteCount);
 
             % Resolve operator variants (fixed or random).
-            [selectOp, selectionVariant, selectionParams] = GEAoptimizer.operators.OperatorFactory.resolve("selection", obj.options.selection); %#ok<NASGU>
-            [crossOp, crossoverVariant, crossoverParams] = GEAoptimizer.operators.OperatorFactory.resolve("crossover", obj.options.crossover); %#ok<NASGU>
-            [mutOp, mutationVariant, mutationParams] = GEAoptimizer.operators.OperatorFactory.resolve("mutation", obj.options.mutation); %#ok<NASGU>
+            [selectOp, selectionVariant, selectionParams] = GEAoptimizer.operators.OperatorFactory.resolve("selection", obj.options.selection);
+            [crossOp, crossoverVariant, crossoverParams] = GEAoptimizer.operators.OperatorFactory.resolve("crossover", obj.options.crossover);
+            [mutOp, mutationVariant, mutationParams] = GEAoptimizer.operators.OperatorFactory.resolve("mutation", obj.options.mutation);
 
             % Selection operates on a snapshot (read-only).
             snap = GEAoptimizer.core.PopulationSnapshot.fromPopulation(obj.problem, population);

@@ -50,7 +50,7 @@ opts = GEAoptimizer.Options( ...
     "callbacks", cbs, ...
     "params", params);
 
-[result, history] = GEAoptimizer.solve(problem, opts); %#ok<NASGU>
+[result, history] = GEAoptimizer.solve(problem, opts);
 
 bestX = round(result.bestGenes(:))';
 bestValue = sum(bestX .* v);

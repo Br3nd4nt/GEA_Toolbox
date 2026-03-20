@@ -1,4 +1,4 @@
-classdef PSO < GEAoptimizer.alg.PopulationOptimizer
+classdef PSO < GEAoptimizer.core.PopulationOptimizer
     %PSO Particle Swarm Optimization (minimal working implementation).
     %
     % Uses the shared PopulationOptimizer run-loop for evaluation/history/

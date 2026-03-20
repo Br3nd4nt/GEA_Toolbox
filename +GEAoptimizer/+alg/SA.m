@@ -1,4 +1,4 @@
-classdef SA < GEAoptimizer.alg.Optimizer
+classdef SA < GEAoptimizer.core.Optimizer
     %SA Simulated Annealing (minimal working implementation).
     %
     % This implementation exists primarily to validate the toolbox's

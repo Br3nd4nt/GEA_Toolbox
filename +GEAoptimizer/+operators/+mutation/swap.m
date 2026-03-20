@@ -1,12 +1,9 @@
-function genes = swap(genes, bounds, params) %#ok<INUSD>
-%SWAP Swap adjacent genes (permutation-style).
-%
-% Ported from Metaheuristics_GEA/Algorithm/Mutation/Mutation_Swap.m
+function genes = swap(genes, bounds, params)
 
 arguments
     genes (1, :) double
-    bounds (2, :) double %#ok<INUSA>
-    params = struct() %#ok<INUSA>
+    bounds (2, :) double
+    params = struct()
 end
 
 n = numel(genes);

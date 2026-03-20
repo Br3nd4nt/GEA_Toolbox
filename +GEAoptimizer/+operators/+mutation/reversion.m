@@ -1,12 +1,9 @@
-function genes = reversion(genes, bounds, params) %#ok<INUSD>
-%REVERSION Reverse a random segment (permutation-style).
-%
-% Ported from Metaheuristics_GEA/Algorithm/Mutation/Mutation_Reversion.m
+function genes = reversion(genes, bounds, params)
 
 arguments
     genes (1, :) double
-    bounds (2, :) double %#ok<INUSA>
-    params = struct() %#ok<INUSA>
+    bounds (2, :) double
+    params = struct()
 end
 
 n = numel(genes);

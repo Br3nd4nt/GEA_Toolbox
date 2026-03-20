@@ -1,4 +1,4 @@
-classdef (Abstract) PopulationOptimizer < GEAoptimizer.alg.Optimizer
+classdef (Abstract) PopulationOptimizer < GEAoptimizer.core.Optimizer
     %POPULATIONOPTIMIZER Shared run-loop scaffolding for population-based methods.
     %
     % This class intentionally does NOT implement algorithm specifics such as

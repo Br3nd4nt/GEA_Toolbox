@@ -1,9 +1,4 @@
 function genes = randomint(genes, bounds, params)
-%RANDOMINT Randomly replace a few gene positions with integers in bounds.
-%
-% Inspired by Metaheuristics_GEA/Algorithm/Mutation/Mutation_Random.m
-% In that code, new values were sampled from 1..model.I. Here, we sample
-% per-gene from the provided bounds and round to integers.
 
 arguments
     genes (1, :) double

@@ -1,12 +1,9 @@
 function [c1, c2] = twopoint(p1, p2, params)
-%TWOPOINT Two-point crossover.
-%
-% Ported from Metaheuristics_GEA/Algorithm/Crossover/Crossover_TwoPoint.m
 
 arguments
     p1 (1, :) double
     p2 (1, :) double
-    params = struct() %#ok<INUSA>
+    params = struct();
 end
 
 n = numel(p1);

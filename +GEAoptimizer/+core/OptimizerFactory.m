@@ -10,8 +10,8 @@ classdef OptimizerFactory
 
             if isa(options.algorithm, "function_handle")
                 optimizer = options.algorithm(problem, options);
-                if ~isa(optimizer, "GEAoptimizer.alg.Optimizer")
-                    error("OptimizerFactory:InvalidFactory", "Algorithm factory must return a GEAoptimizer.alg.Optimizer.");
+                if ~isa(optimizer, "GEAoptimizer.core.Optimizer")
+                    error("OptimizerFactory:InvalidFactory", "Algorithm factory must return a GEAoptimizer.core.Optimizer.");
                 end
                 return;
             end

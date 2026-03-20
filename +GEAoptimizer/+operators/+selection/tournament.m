@@ -1,13 +1,4 @@
 function parentIdx = tournament(popSnapshot, nParents, objectiveType, params)
-%TOURNAMENT Tournament selection (index-only operator).
-%
-% parentIdx = tournament(popSnapshot, nParents, objectiveType, params)
-%
-% Inputs:
-% - popSnapshot: GEAoptimizer.core.PopulationSnapshot (read-only)
-% - nParents: number of parent indices to sample
-% - objectiveType: "min" or "max"
-% - params.k: tournament size (default 3)
 
 arguments
     popSnapshot (1, 1) GEAoptimizer.core.PopulationSnapshot

@@ -1,14 +1,10 @@
-function parentIdx = roulette(popSnapshot, nParents, objectiveType, params) %#ok<INUSD>
-%ROULETTE Roulette-wheel selection (index-only operator).
-%
-% For minimization, uses inverted ranks; for maximization, uses shifted fitness.
-% This is a simple baseline intended for testing wiring, not performance.
+function parentIdx = roulette(popSnapshot, nParents, objectiveType, params)
 
 arguments
     popSnapshot (1, 1) GEAoptimizer.core.PopulationSnapshot
     nParents (1, 1) double {mustBeInteger, mustBePositive}
     objectiveType (1, 1) string {mustBeMember(objectiveType,["min","max"])}
-    params = struct() %#ok<INUSA>
+    params = struct()
 end
 
 fit = popSnapshot.fitness(:);
