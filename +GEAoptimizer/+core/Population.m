@@ -14,23 +14,9 @@ classdef Population
             end
         end
 
-        function varargout = size(obj, varargin)
-            %SIZE Size of the population (compatible with MATLAB size()).
-            %
-            % size(pop) returns [N 1] to behave like a column vector container.
+        function n = count(obj)
+            %COUNT Number of chromosomes in this population.
             n = numel(obj.chromosomes);
-            if nargin == 1
-                s = [n 1];
-            else
-                dim = varargin{1};
-                s = [n 1];
-                s = s(dim);
-            end
-            if nargout <= 1
-                varargout = {s};
-            else
-                varargout = num2cell(s);
-            end
         end
 
         function [best, idx] = best(obj, objectiveType)
