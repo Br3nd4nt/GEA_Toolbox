@@ -56,6 +56,10 @@ classdef Population
                 error("Population:InvalidGenes", "genes must be N x nGenes.");
             end
             n = size(genes, 1);
+            if n == 0
+                population = GEAoptimizer.core.Population(GEAoptimizer.core.Chromosome.empty());
+                return;
+            end
             chromosomes(1, n) = GEAoptimizer.core.Chromosome();
             for i = 1:n
                 chromosomes(i) = GEAoptimizer.core.Chromosome(genes(i, :), NaN);

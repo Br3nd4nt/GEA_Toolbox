@@ -68,7 +68,3 @@ opts = GEAoptimizer.Options("algorithm","gea","populationSize",50);
 
 [result, history] = GEAoptimizer.solve(problem, opts);
 ```
-
-## Notes
-- Users should only interact with `GEAoptimizer.solve`, `GEAoptimizer.Problem`, `GEAoptimizer.Options`.
-- Everything else is internal implementation detail.

@@ -44,7 +44,7 @@ classdef GA < GEAoptimizer.core.PopulationOptimizer
 
             childIdx = 1;
             while childIdx <= nChildren
-            parentIdx = selectOp(snap, 2, obj.problem.objectiveType, selectionParams);
+                parentIdx = selectOp(snap, 2, obj.problem.objectiveType, selectionParams);
                 p1 = population.chromosomes(parentIdx(1)).genes;
                 p2 = population.chromosomes(parentIdx(2)).genes;
 

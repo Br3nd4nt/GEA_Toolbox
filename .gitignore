@@ -1,0 +1,9 @@
+.DS_Store
+**/.DS_Store
+
+# MATLAB doc/tree artifacts
+00Tree.html
+resources/project/00Tree.html
+
+# build artifacts
+dist/
